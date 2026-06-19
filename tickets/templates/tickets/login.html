@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskDesk</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 400px;
+      padding: 1rem;
+    }
+    .brand {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .brand-icon {
+      width: 56px;
+      height: 56px;
+      background: white;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: .75rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    }
+    .brand-icon svg { width: 32px; height: 32px; }
+    .brand h1 { color: white; font-size: 1.6rem; font-weight: 700; letter-spacing: -.5px; }
+    .brand p { color: rgba(255,255,255,.7); font-size: .9rem; margin-top: .25rem; }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    .card h2 { font-size: 1.2rem; font-weight: 600; color: #1a1a2e; margin-bottom: 1.5rem; }
+    .field { margin-bottom: 1.25rem; }
+    label { display: block; font-size: .8rem; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .4rem; }
+    input {
+      width: 100%;
+      padding: .7rem 1rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: .95rem;
+      color: #1a1a2e;
+      transition: border-color .2s;
+      outline: none;
+    }
+    input:focus { border-color: #2d6a9f; box-shadow: 0 0 0 3px rgba(45,106,159,.12); }
+    .error-box {
+      background: #fff0f0;
+      border: 1px solid #f5c2c2;
+      border-radius: 8px;
+      padding: .65rem 1rem;
+      color: #c62828;
+      font-size: .875rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .btn {
+      width: 100%;
+      padding: .75rem;
+      background: linear-gradient(135deg, #1e3a5f, #2d6a9f);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: .5rem;
+      transition: opacity .2s, transform .1s;
+    }
+    .btn:hover { opacity: .92; }
+    .btn:active { transform: scale(.98); }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2d6a9f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+        </svg>
+      </div>
+      <h1>TaskDesk</h1>
+      <p>Ticket management made simple</p>
+    </div>
+
+    <div class="card">
+      <h2>Welcome back</h2>
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {% if error %}
+          <div class="error-box" id="login-error">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            {{ error }}
+          </div>
+        {% endif %}
+        <div class="field">
+          <label for="username-input">Username</label>
+          {{ form.username }}
+        </div>
+        <div class="field">
+          <label for="password-input">Password</label>
+          {{ form.password }}
+        </div>
+        <button type="submit" class="btn" id="login-button">Sign In</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

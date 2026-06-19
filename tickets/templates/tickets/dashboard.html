@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskDesk – Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f4f8; color: #1a1a2e; }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
+      padding: .9rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(0,0,0,.2);
+    }
+    .header-brand { display: flex; align-items: center; gap: .6rem; }
+    .header-brand svg { width: 22px; height: 22px; }
+    .header-brand span { color: white; font-size: 1.1rem; font-weight: 700; letter-spacing: -.3px; }
+    .header-right { display: flex; align-items: center; gap: 1rem; }
+    .header-user { color: rgba(255,255,255,.85); font-size: .875rem; }
+    .header-user strong { color: white; }
+    .btn-logout {
+      background: rgba(255,255,255,.15);
+      color: white;
+      border: 1px solid rgba(255,255,255,.3);
+      padding: .4rem .9rem;
+      border-radius: 6px;
+      font-size: .875rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,.25); }
+
+    /* Layout */
+    .content { max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.75rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 1.25rem;
+      padding-bottom: .75rem;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .card-title svg { width: 18px; height: 18px; color: #2d6a9f; }
+
+    /* Form */
+    .field { margin-bottom: 1rem; }
+    label { display: block; font-size: .8rem; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .35rem; }
+    input[type=text], textarea {
+      width: 100%;
+      padding: .65rem 1rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: .95rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      transition: border-color .2s;
+      outline: none;
+      resize: vertical;
+    }
+    input[type=text]:focus, textarea:focus { border-color: #2d6a9f; box-shadow: 0 0 0 3px rgba(45,106,159,.1); }
+    .btn-primary {
+      background: linear-gradient(135deg, #1e3a5f, #2d6a9f);
+      color: white;
+      border: none;
+      padding: .6rem 1.4rem;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .btn-primary:hover { opacity: .9; }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      text-align: left;
+      padding: .6rem .8rem;
+      font-size: .78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: #777;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    tbody tr { transition: background .15s; }
+    tbody tr:hover { background: #f8fafc; }
+    td { padding: .75rem .8rem; font-size: .9rem; border-bottom: 1px solid #f5f5f5; vertical-align: middle; }
+
+    .badge {
+      display: inline-block;
+      padding: .2rem .65rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .badge-open { background: #fff3e0; color: #e65100; }
+    .badge-closed { background: #e8f5e9; color: #2e7d32; }
+
+    .btn-delete {
+      background: #fff0f0;
+      color: #c62828;
+      border: 1px solid #f5c2c2;
+      padding: .3rem .75rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-delete:hover { background: #fde0e0; }
+
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: #aaa;
+    }
+    .empty-state svg { width: 40px; height: 40px; margin-bottom: .75rem; opacity: .4; }
+    .empty-state p { font-size: .95rem; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+      </svg>
+      <span>TaskDesk</span>
+    </div>
+    <div class="header-right">
+      <span class="header-user" id="welcome-label">Hello, <strong>{{ request.user.username }}</strong></span>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-logout" id="logout-button">Sign out</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Submit a Ticket
+      </div>
+      <form method="post" action="{% url 'dashboard' %}">
+        {% csrf_token %}
+        <div class="field">
+          <label for="ticket-title-input">Title</label>
+          {{ form.title }}
+        </div>
+        <div class="field">
+          <label for="ticket-description-input">Description</label>
+          {{ form.description }}
+        </div>
+        <button type="submit" class="btn-primary" id="submit-ticket-button">Submit Ticket</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        My Tickets
+      </div>
+      {% if tickets %}
+        <table id="tickets-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ticket in tickets %}
+            <tr data-ticket-id="{{ ticket.id }}">
+              <td style="color:#aaa;font-size:.8rem;">{{ ticket.id }}</td>
+              <td><strong>{{ ticket.title }}</strong></td>
+              <td style="color:#555;">{{ ticket.description }}</td>
+              <td>
+                <span class="badge badge-{{ ticket.status }}">{{ ticket.status }}</span>
+              </td>
+              <td>
+                <form method="post" action="{% url 'delete_ticket' ticket.id %}" style="margin:0">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-delete" id="delete-ticket-{{ ticket.id }}">Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+          <p id="empty-state">No tickets yet — submit one above.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
