@@ -120,6 +120,12 @@
     .badge-open { background: #fff3e0; color: #e65100; }
     .badge-closed { background: #e8f5e9; color: #2e7d32; }
 
+    .sev { display: inline-block; padding: .2rem .65rem; border-radius: 20px; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
+    .sev-critical { background: #fde8e8; color: #b71c1c; }
+    .sev-high     { background: #fff3e0; color: #bf360c; }
+    .sev-medium   { background: #fff8e1; color: #f57f17; }
+    .sev-low      { background: #e8f5e9; color: #2e7d32; }
+
     .btn-close {
       background: #e8f5e9;
       color: #2e7d32;
@@ -200,6 +206,7 @@
               <th>User</th>
               <th>Title</th>
               <th>Description</th>
+              <th>Severity</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -213,6 +220,7 @@
               </td>
               <td><strong>{{ ticket.title }}</strong></td>
               <td style="color:#555;">{{ ticket.description }}</td>
+              <td><span class="sev sev-{{ ticket.severity }}">{{ ticket.severity }}</span></td>
               <td>
                 <span class="badge badge-{{ ticket.status }}" id="ticket-status-{{ ticket.id }}">{{ ticket.status }}</span>
               </td>

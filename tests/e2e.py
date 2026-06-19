@@ -121,6 +121,9 @@ def test_user_submit_ticket(live_server, browser):
     _pause(browser, 0.4)
     browser.find_element(By.ID, "ticket-description-input").send_keys("Cannot log in to prod")
     _pause(browser, 0.4)
+    from selenium.webdriver.support.ui import Select
+    Select(browser.find_element(By.ID, "ticket-severity-select")).select_by_value("critical")
+    _pause(browser, 0.4)
     browser.find_element(By.ID, "submit-ticket-button").click()
 
     _wait_for(browser, "tickets-table")
@@ -160,8 +163,7 @@ def test_admin_login_and_close_ticket(live_server, browser):
     assert "Needs closing" in browser.find_element(By.ID, "tickets-table").text
 
     browser.find_element(By.ID, f"close-ticket-{ticket.id}").click()
-
-    _wait_for(browser, f"ticket-status-{ticket.id}")
+    
     _pause(browser)
     assert browser.find_element(By.ID, f"ticket-status-{ticket.id}").text.lower() == "closed"
 

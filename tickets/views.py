@@ -43,7 +43,7 @@ def dashboard_view(request):
     if request.method == "POST":
         form = TicketForm(request.POST)
         if form.is_valid():
-            create_ticket(request.user, form.cleaned_data["title"], form.cleaned_data["description"])
+            create_ticket(request.user, form.cleaned_data["title"], form.cleaned_data["description"], form.cleaned_data["severity"])
             return redirect("dashboard")
 
     return render(request, "tickets/dashboard.html", {"form": form, "tickets": get_user_tickets(request.user)})

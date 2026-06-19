@@ -24,8 +24,8 @@ def get_all_tickets():
     return Ticket.objects.select_related("user").order_by("-created_at")
 
 
-def create_ticket(user: User, title: str, description: str) -> Ticket:
-    return Ticket.objects.create(user=user, title=title, description=description)
+def create_ticket(user: User, title: str, description: str, severity: str = "medium") -> Ticket:
+    return Ticket.objects.create(user=user, title=title, description=description, severity=severity)
 
 
 def delete_ticket(ticket_id: int, user: User) -> None:

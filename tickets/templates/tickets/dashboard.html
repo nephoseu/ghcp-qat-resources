@@ -115,6 +115,33 @@
     .badge-open { background: #fff3e0; color: #e65100; }
     .badge-closed { background: #e8f5e9; color: #2e7d32; }
 
+    /* Severity badges */
+    .sev { display: inline-block; padding: .2rem .65rem; border-radius: 20px; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
+    .sev-critical { background: #fde8e8; color: #b71c1c; }
+    .sev-high     { background: #fff3e0; color: #bf360c; }
+    .sev-medium   { background: #fff8e1; color: #f57f17; }
+    .sev-low      { background: #e8f5e9; color: #2e7d32; }
+
+    /* Severity select */
+    select {
+      width: 100%;
+      padding: .65rem 1rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: .95rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: white;
+      cursor: pointer;
+      outline: none;
+      transition: border-color .2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+    }
+    select:focus { border-color: #2d6a9f; box-shadow: 0 0 0 3px rgba(45,106,159,.1); }
+
     .btn-delete {
       background: #fff0f0;
       color: #c62828;
@@ -170,6 +197,10 @@
           <label for="ticket-description-input">Description</label>
           {{ form.description }}
         </div>
+        <div class="field">
+          <label for="ticket-severity-select">Severity</label>
+          {{ form.severity }}
+        </div>
         <button type="submit" class="btn-primary" id="submit-ticket-button">Submit Ticket</button>
       </form>
     </div>
@@ -186,6 +217,7 @@
               <th>#</th>
               <th>Title</th>
               <th>Description</th>
+              <th>Severity</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -196,6 +228,7 @@
               <td style="color:#aaa;font-size:.8rem;">{{ ticket.id }}</td>
               <td><strong>{{ ticket.title }}</strong></td>
               <td style="color:#555;">{{ ticket.description }}</td>
+              <td><span class="sev sev-{{ ticket.severity }}">{{ ticket.severity }}</span></td>
               <td>
                 <span class="badge badge-{{ ticket.status }}">{{ ticket.status }}</span>
               </td>
