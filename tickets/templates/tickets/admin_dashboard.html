@@ -61,14 +61,10 @@
       align-items: center;
       gap: .9rem;
     }
-    .stat-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-    }
+    .stat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
     .stat-icon svg { width: 20px; height: 20px; }
     .stat-icon.total { background: #e3f2fd; color: #1565c0; }
-    .stat-icon.open { background: #fff3e0; color: #e65100; }
+    .stat-icon.open  { background: #fff3e0; color: #e65100; }
     .stat-icon.closed { background: #e8f5e9; color: #2e7d32; }
     .stat-value { font-size: 1.6rem; font-weight: 700; line-height: 1; }
     .stat-label { font-size: .78rem; color: #888; margin-top: .15rem; text-transform: uppercase; letter-spacing: .5px; }
@@ -79,6 +75,7 @@
       border-radius: 12px;
       padding: 1.75rem;
       box-shadow: 0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+      margin-bottom: 1.5rem;
     }
     .card-title {
       font-size: 1rem;
@@ -92,6 +89,51 @@
       color: #1a1a2e;
     }
     .card-title svg { width: 18px; height: 18px; color: #37474f; }
+
+    /* Kanban board (feature: drag-and-drop) */
+    .kanban-board {
+      display: flex;
+      gap: 1.25rem;
+    }
+    .kanban-col {
+      flex: 1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 1rem;
+      min-height: 120px;
+      border: 2px dashed #e0e0e0;
+      transition: border-color .2s, background .2s;
+    }
+    .kanban-col.drag-over { border-color: #2d6a9f; background: #e3f2fd; }
+    .kanban-col-title {
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: #777;
+      margin-bottom: .75rem;
+    }
+    .kanban-card {
+      background: white;
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      margin-bottom: .6rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      cursor: grab;
+      border-left: 3px solid #2d6a9f;
+      user-select: none;
+      transition: box-shadow .15s, opacity .15s;
+    }
+    .kanban-card.dragging { opacity: .5; cursor: grabbing; }
+    #col-closed .kanban-card { border-left-color: #2e7d32; }
+    .kanban-card-title { font-size: .9rem; font-weight: 600; color: #1a1a2e; }
+    .kanban-card-meta { font-size: .78rem; color: #888; margin-top: .2rem; }
+
+    .sev { display: inline-block; padding: .15rem .5rem; border-radius: 20px; font-size: .72rem; font-weight: 700; text-transform: uppercase; }
+    .sev-critical { background: #fde8e8; color: #b71c1c; }
+    .sev-high     { background: #fff3e0; color: #bf360c; }
+    .sev-medium   { background: #fff8e1; color: #f57f17; }
+    .sev-low      { background: #e8f5e9; color: #2e7d32; }
 
     /* Table */
     table { width: 100%; border-collapse: collapse; }
@@ -117,14 +159,8 @@
       font-weight: 600;
       text-transform: capitalize;
     }
-    .badge-open { background: #fff3e0; color: #e65100; }
+    .badge-open   { background: #fff3e0; color: #e65100; }
     .badge-closed { background: #e8f5e9; color: #2e7d32; }
-
-    .sev { display: inline-block; padding: .2rem .65rem; border-radius: 20px; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
-    .sev-critical { background: #fde8e8; color: #b71c1c; }
-    .sev-high     { background: #fff3e0; color: #bf360c; }
-    .sev-medium   { background: #fff8e1; color: #f57f17; }
-    .sev-low      { background: #e8f5e9; color: #2e7d32; }
 
     .btn-close {
       background: #e8f5e9;
@@ -139,6 +175,46 @@
     }
     .btn-close:hover { background: #c8e6c9; }
     .btn-close:disabled { background: #f5f5f5; color: #bbb; border-color: #e0e0e0; cursor: default; }
+
+    /* Search */
+    .search-wrap { margin-bottom: 1rem; }
+    .search-wrap input {
+      width: 100%;
+      padding: .6rem 1rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .search-wrap input:focus { border-color: #2d6a9f; box-shadow: 0 0 0 3px rgba(45,106,159,.1); }
+    #search-empty { color: #888; font-size: .9rem; margin-top: .75rem; display: none; }
+
+    /* View button */
+    .btn-view {
+      background: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #bbdefb;
+      padding: .3rem .75rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-view:hover { background: #bbdefb; }
+
+    /* Iframe container */
+    .frame-container {
+      margin-top: 1.25rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      display: none;
+    }
+    .frame-container iframe { width: 100%; height: 300px; border: none; display: block; }
 
     .empty-state { text-align: center; padding: 3rem 1rem; color: #aaa; }
     .empty-state svg { width: 40px; height: 40px; margin-bottom: .75rem; opacity: .4; }
@@ -193,11 +269,64 @@
       </div>
     </div>
 
+    <!-- Kanban drag board (feature: drag-and-drop) -->
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Board — drag a card to Close it
+      </div>
+      <div class="kanban-board">
+        <div id="col-open" class="kanban-col"
+             onmouseup="onColMouseup('open')"
+             ondragover="event.preventDefault(); this.classList.add('drag-over')"
+             ondragleave="this.classList.remove('drag-over')"
+             ondrop="onDrop(event, 'open')">
+          <div class="kanban-col-title">Open</div>
+          {% for ticket in tickets %}{% if ticket.status == "open" %}
+          <div id="card-{{ ticket.id }}" class="kanban-card" draggable="true"
+               onmousedown="onCardMousedown({{ ticket.id }})"
+               ondragstart="onDragStart(event, {{ ticket.id }})">
+            <div class="kanban-card-title">{{ ticket.title }}</div>
+            <div class="kanban-card-meta">
+              {{ ticket.user.username }} &middot;
+              <span class="sev sev-{{ ticket.severity }}">{{ ticket.severity }}</span>
+            </div>
+            <form id="close-form-{{ ticket.id }}" method="post"
+                  action="{% url 'close_ticket' ticket.id %}" style="display:none">
+              {% csrf_token %}
+            </form>
+          </div>
+          {% endif %}{% endfor %}
+        </div>
+
+        <div id="col-closed" class="kanban-col"
+             onmouseup="onColMouseup('closed')"
+             ondragover="event.preventDefault(); this.classList.add('drag-over')"
+             ondragleave="this.classList.remove('drag-over')"
+             ondrop="onDrop(event, 'closed')">
+          <div class="kanban-col-title">Closed</div>
+          {% for ticket in tickets %}{% if ticket.status == "closed" %}
+          <div id="card-{{ ticket.id }}" class="kanban-card" draggable="false">
+            <div class="kanban-card-title">{{ ticket.title }}</div>
+            <div class="kanban-card-meta">{{ ticket.user.username }}</div>
+          </div>
+          {% endif %}{% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- All tickets table -->
     <div class="card">
       <div class="card-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
         All Tickets
       </div>
+      <!-- Live search filter -->
+      <div class="search-wrap">
+        <input type="text" id="ticket-search-input" placeholder="Search tickets by title…" autocomplete="off">
+      </div>
+      <p id="search-empty">No tickets match your search.</p>
+
       {% if tickets %}
         <table id="tickets-table">
           <thead>
@@ -209,15 +338,14 @@
               <th>Severity</th>
               <th>Status</th>
               <th>Action</th>
+              <th>View</th>
             </tr>
           </thead>
           <tbody>
             {% for ticket in tickets %}
-            <tr data-ticket-id="{{ ticket.id }}">
+            <tr data-ticket-id="{{ ticket.id }}" data-title="{{ ticket.title }}">
               <td style="color:#aaa;font-size:.8rem;">{{ ticket.id }}</td>
-              <td>
-                <span style="font-weight:600;">{{ ticket.user.username }}</span>
-              </td>
+              <td><span style="font-weight:600;">{{ ticket.user.username }}</span></td>
               <td><strong>{{ ticket.title }}</strong></td>
               <td style="color:#555;">{{ ticket.description }}</td>
               <td><span class="sev sev-{{ ticket.severity }}">{{ ticket.severity }}</span></td>
@@ -235,10 +363,20 @@
                   </button>
                 </form>
               </td>
+              <td>
+                <button class="btn-view" id="view-ticket-{{ ticket.id }}"
+                        onclick="showInFrame({{ ticket.id }})">View</button>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
+
+        <!-- Iframe container for View button -->
+        <div class="frame-container" id="frame-container">
+          <iframe id="ticket-detail-frame" src=""></iframe>
+        </div>
+
       {% else %}
         <div class="empty-state">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
@@ -247,5 +385,80 @@
       {% endif %}
     </div>
   </div>
+
+  <script>
+    // ── Live search filter (debounced 300 ms) ────────────────────────────────
+    (function () {
+      const input = document.getElementById('ticket-search-input');
+      const empty = document.getElementById('search-empty');
+      if (!input) return;
+      let timer;
+      input.addEventListener('input', function () {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          const q = input.value.toLowerCase();
+          let visible = 0;
+          document.querySelectorAll('#tickets-table tbody tr').forEach(function (row) {
+            const title = (row.dataset.title || '').toLowerCase();
+            const match = !q || title.includes(q);
+            row.style.display = match ? '' : 'none';
+            if (match) visible++;
+          });
+          if (empty) {
+            empty.style.display = (q && visible === 0) ? 'block' : 'none';
+          }
+        }, 300);
+      });
+    })();
+
+    // ── View in iframe ───────────────────────────────────────────────────────
+    function showInFrame(ticketId) {
+      const container = document.getElementById('frame-container');
+      const frame = document.getElementById('ticket-detail-frame');
+      frame.src = '/tickets/' + ticketId + '/detail/';
+      container.style.display = 'block';
+    }
+
+    // ── Feature: drag-and-drop kanban close ─────────────────────────────────
+    // Supports BOTH:
+    //   - HTML5 drag events (native user drag, Playwright drag_to)
+    //   - Mouse events     (Selenium ActionChains click_and_hold → release)
+    let _dragging = null;
+    let _submitting = false;
+
+    function onCardMousedown(id) { _dragging = id; }
+
+    function onColMouseup(targetStatus) {
+      if (_dragging === null) return;
+      const id = _dragging;
+      _dragging = null;
+      if (targetStatus === 'closed') _submitClose(id);
+    }
+
+    function onDragStart(event, id) {
+      event.dataTransfer.setData('ticketId', String(id));
+      document.getElementById('card-' + id).classList.add('dragging');
+    }
+
+    function onDrop(event, targetStatus) {
+      event.preventDefault();
+      document.querySelectorAll('.kanban-col').forEach(function (c) { c.classList.remove('drag-over'); });
+      document.querySelectorAll('.kanban-card').forEach(function (c) { c.classList.remove('dragging'); });
+      if (targetStatus !== 'closed') return;
+      const id = event.dataTransfer.getData('ticketId');
+      if (id) _submitClose(parseInt(id, 10));
+    }
+
+    function _submitClose(id) {
+      if (_submitting) return;
+      const form = document.getElementById('close-form-' + id);
+      if (!form) return;
+      _submitting = true;
+      form.submit();
+    }
+
+    // Clear dragging state on global mouseup (cancel if dropped outside col)
+    document.addEventListener('mouseup', function () { _dragging = null; });
+  </script>
 </body>
 </html>

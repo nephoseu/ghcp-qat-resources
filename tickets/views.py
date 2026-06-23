@@ -1,9 +1,12 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import redirect, render
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
 from .api import authenticate_user, close_ticket, create_ticket, delete_ticket, get_all_tickets, get_user_tickets
 from .forms import LoginForm, TicketForm
+from .models import Ticket
 
 _staff_required = user_passes_test(lambda u: u.is_staff, login_url="/")
 
@@ -43,8 +46,13 @@ def dashboard_view(request):
     if request.method == "POST":
         form = TicketForm(request.POST)
         if form.is_valid():
-            create_ticket(request.user, form.cleaned_data["title"], form.cleaned_data["description"], form.cleaned_data["severity"])
-            return redirect("dashboard")
+            create_ticket(
+                request.user,
+                form.cleaned_data["title"],
+                form.cleaned_data["description"],
+                form.cleaned_data["severity"],
+            )
+            return HttpResponseRedirect(reverse("dashboard") + "?submitted=1")
 
     return render(request, "tickets/dashboard.html", {"form": form, "tickets": get_user_tickets(request.user)})
 
@@ -68,3 +76,11 @@ def close_ticket_view(request, ticket_id):
     if request.method == "POST":
         close_ticket(ticket_id)
     return redirect("admin_dashboard")
+
+
+@login_required
+def detail_view(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    if not (ticket.user == request.user or request.user.is_staff):
+        return redirect("dashboard")
+    return render(request, "tickets/detail.html", {"ticket": ticket})

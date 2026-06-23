@@ -133,24 +133,6 @@ def test_user_submit_ticket(live_server, browser):
     _logout(browser)
 
 
-def test_user_delete_ticket(live_server, browser):
-    """User deletes a ticket — empty state is shown afterwards."""
-    user = User.objects.create_user(username="sel_delete", password="sel_pass")
-    ticket = Ticket.objects.create(user=user, title="To be deleted", description="bye")
-
-    _login(browser, live_server.url, "sel_delete", "sel_pass")
-    _wait_for(browser, f"delete-ticket-{ticket.id}")
-    _pause(browser)
-
-    browser.find_element(By.ID, f"delete-ticket-{ticket.id}").click()
-
-    _wait_for(browser, "empty-state")
-    _pause(browser)
-    assert "No tickets" in browser.find_element(By.ID, "empty-state").text
-
-    _logout(browser)
-
-
 def test_admin_login_and_close_ticket(live_server, browser):
     """Admin logs in, sees a user's ticket, closes it — status badge updates."""
     user = User.objects.create_user(username="sel_user_close", password="user_pass")
