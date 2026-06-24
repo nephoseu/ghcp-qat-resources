@@ -61,7 +61,7 @@ def main():
 
         db.bulk_save_objects(tickets)
         db.commit()
-        print("Done. Accounts: user/user (regular), admin/admin (staff). 500 tickets created.")
+        print("Done. Accounts: user/user (regular), admin/admin (staff). 50 tickets created.")
     finally:
         db.close()
 
