@@ -1,0 +1,44 @@
+name: Release downloadable apps
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build taskdesk-django.zip
+        run: |
+          zip -r taskdesk-django.zip ticket-app-django/ \
+            --exclude "ticket-app-django/.venv/*" \
+            --exclude "ticket-app-django/__pycache__/*" \
+            --exclude "ticket-app-django/*.pyc" \
+            --exclude "ticket-app-django/db.sqlite3" \
+            --exclude "ticket-app-django/.pytest_cache/*"
+
+      - name: Build taskdesk-api.zip
+        run: |
+          zip -r taskdesk-api.zip ticket-api/ \
+            --exclude "ticket-api/.venv/*" \
+            --exclude "ticket-api/__pycache__/*" \
+            --exclude "ticket-api/*.pyc" \
+            --exclude "ticket-api/*.db" \
+            --exclude "ticket-api/.pytest_cache/*"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            taskdesk-django.zip \
+            taskdesk-api.zip \
+            --title "Release ${{ github.ref_name }}" \
+            --notes "Downloadable apps for QA training labs."

@@ -1,0 +1,49 @@
+site_name: GitHub Copilot QAT Labs
+site_url: https://nephoseu.github.io/ghcp-qat-resources/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - tables
+  - attr_list
+  - md_in_html
+
+nav:
+  - Home: index.md
+  - Labs:
+    - Lab 1: lab1.md
+    - Lab 2: lab2.md
+    - Lab 3: lab3.md
+    - Lab 4: lab4.md
+    - Lab 5: lab5.md
+  - Downloads: downloads.md
