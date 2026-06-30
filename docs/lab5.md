@@ -23,7 +23,7 @@ automated tests.
 ### 1. Enter the API project and create a virtual environment
 
 ```bash
-cd ghcp-qat-resources/ticket_api
+cd ghcp-qat-resources/src/ticket-api
 
 python3 -m venv .venv
 source .venv/bin/activate        # macOS / Linux

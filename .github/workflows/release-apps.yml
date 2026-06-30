@@ -2,8 +2,10 @@ name: Release downloadable apps
 
 on:
   push:
-    tags:
-      - 'v[0-9]+.[0-9]+*'
+    branches: [main]
+    paths:
+      - 'src/ticket-app-django/**'
+      - 'src/ticket-api/**'
 
 permissions:
   contents: write
@@ -14,31 +16,50 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Auto-increment version tag
+        id: version
+        run: |
+          LATEST=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0")
+          VERSION=${LATEST#v}
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MINOR=$(echo $VERSION | cut -d. -f2)
+          NEW_TAG="v${MAJOR}.$((MINOR + 1))"
+          echo "tag=$NEW_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create git tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag ${{ steps.version.outputs.tag }}
+          git push origin ${{ steps.version.outputs.tag }}
 
       - name: Build taskdesk-django.zip
         run: |
-          zip -r taskdesk-django.zip ticket-app-django/ \
-            --exclude "ticket-app-django/.venv/*" \
-            --exclude "ticket-app-django/__pycache__/*" \
-            --exclude "ticket-app-django/*.pyc" \
-            --exclude "ticket-app-django/db.sqlite3" \
-            --exclude "ticket-app-django/.pytest_cache/*"
+          zip -r taskdesk-django.zip src/ticket-app-django/ \
+            --exclude "src/ticket-app-django/.venv/*" \
+            --exclude "src/ticket-app-django/__pycache__/*" \
+            --exclude "src/ticket-app-django/*.pyc" \
+            --exclude "src/ticket-app-django/db.sqlite3" \
+            --exclude "src/ticket-app-django/.pytest_cache/*"
 
       - name: Build taskdesk-api.zip
         run: |
-          zip -r taskdesk-api.zip ticket-api/ \
-            --exclude "ticket-api/.venv/*" \
-            --exclude "ticket-api/__pycache__/*" \
-            --exclude "ticket-api/*.pyc" \
-            --exclude "ticket-api/*.db" \
-            --exclude "ticket-api/.pytest_cache/*"
+          zip -r taskdesk-api.zip src/ticket-api/ \
+            --exclude "src/ticket-api/.venv/*" \
+            --exclude "src/ticket-api/__pycache__/*" \
+            --exclude "src/ticket-api/*.pyc" \
+            --exclude "src/ticket-api/*.db" \
+            --exclude "src/ticket-api/.pytest_cache/*"
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ github.ref_name }}" \
+          gh release create "${{ steps.version.outputs.tag }}" \
             taskdesk-django.zip \
             taskdesk-api.zip \
-            --title "Release ${{ github.ref_name }}" \
+            --title "Release ${{ steps.version.outputs.tag }}" \
             --notes "Downloadable apps for QA training labs."

@@ -64,7 +64,7 @@ Verify: `jmeter --version`
 ### 2. Install the API dependencies
 
 ```bash
-cd ghcp-qat-resources/ticket_api
+cd ghcp-qat-resources/src/ticket-api
 
 python3 -m venv .venv
 source .venv/bin/activate     # macOS / Linux
