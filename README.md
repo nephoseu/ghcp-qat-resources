@@ -2,7 +2,7 @@
 
 Training labs for QA automation with GitHub Copilot. Labs are published at:
 
-**https://nephoseu.github.io/ghcp-qat-resources/** NOT
+**https://nephoseu.github.io/ghcp-qat-resources/**
 
 ---
 
