@@ -6,8 +6,7 @@ You will write JMeter load tests for the **TaskDesk API**, a REST service that m
 support tickets. The API behaves correctly — all endpoints return the right data and the
 right status codes. Your job is to find out whether it behaves *well under load*.
 
-**API under test:** TaskDesk API (FastAPI)  
-**Estimated time:** 60–90 minutes
+**Estimated time:** 60 minutes
 
 !!! tip "Download the app first"
     Lab 4 uses **TaskDesk API (FastAPI)**. Download and unzip it before following the setup steps below.

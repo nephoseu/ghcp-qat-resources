@@ -4,8 +4,7 @@
 
 You will migrate an existing Selenium test suite to Playwright in three stages: a straightforward conversion, a set of patterns where naive migration breaks, and finally writing a brand-new test from scratch. GitHub Copilot is your assistant throughout — but you will need to know enough to steer it and fix what it gets wrong.
 
-**App under test:** TaskDesk — a ticket management system  
-**Estimated time:** 60–90 minutes
+**Estimated time:** 60 minutes
 
 !!! tip "Download the app first"
     Lab 3 uses **TaskDesk (Django)**. Download and unzip it before following the setup steps below.

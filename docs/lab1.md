@@ -4,7 +4,6 @@
 
 This exercise walks you through your first hands-on experience with GitHub Copilot inside GitHub Codespaces — no local setup required.
 
-**Platform:** GitHub Skills (hosted on GitHub)  
 **Estimated time:** 30–45 minutes
 
 ---

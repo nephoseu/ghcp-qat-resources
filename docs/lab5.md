@@ -8,8 +8,7 @@ small pytest harness and using GitHub Copilot to generate test data for parametr
 You will work against **TaskDesk API** (`ticket_api`), which already has seed data but no
 automated tests.
 
-**App under test:** TaskDesk API (FastAPI)  
-**Estimated time:** 60–90 minutes
+**Estimated time:** 60 minutes
 
 !!! tip "Download the app first"
     Lab 5 uses **TaskDesk API (FastAPI)**. Download and unzip it before following the setup steps below.
