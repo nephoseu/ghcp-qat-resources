@@ -4,7 +4,7 @@
 
 In this exercise you use GitHub Copilot to accelerate writing unit tests for a C# application, using the Chat view and Agent mode in VS Code.
 
-**Estimated time:** 45 minutes
+**Estimated time:** 30 minutes
 
 ---
 

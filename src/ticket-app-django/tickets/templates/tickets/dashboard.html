@@ -389,7 +389,7 @@
   <script>
     // ── Feature: toast (auto-dismissing after submit) ────────────────────────
 
-    // ── Feature: live search filter (debounced, 300 ms) ─────────────────────
+    // ── Feature: live search filter (debounced 300 ms, queries the server) ──
     (function () {
       const input = document.getElementById('ticket-search-input');
       const empty = document.getElementById('search-empty');
@@ -398,17 +398,21 @@
       input.addEventListener('input', function () {
         clearTimeout(timer);
         timer = setTimeout(function () {
-          const q = input.value.toLowerCase();
-          let visible = 0;
-          document.querySelectorAll('#tickets-table tbody tr').forEach(function (row) {
-            const title = (row.dataset.title || '').toLowerCase();
-            const match = !q || title.includes(q);
-            row.style.display = match ? '' : 'none';
-            if (match) visible++;
-          });
-          if (empty) {
-            empty.style.display = (q && visible === 0) ? 'block' : 'none';
-          }
+          const q = input.value.trim();
+          fetch('/tickets/search/?q=' + encodeURIComponent(q))
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+              const ids = new Set(data.ids.map(String));
+              let visible = 0;
+              document.querySelectorAll('#tickets-table tbody tr').forEach(function (row) {
+                const match = ids.has(row.dataset.ticketId);
+                row.style.display = match ? '' : 'none';
+                if (match) visible++;
+              });
+              if (empty) {
+                empty.style.display = (q && visible === 0) ? 'block' : 'none';
+              }
+            });
         }, 300);
       });
     })();

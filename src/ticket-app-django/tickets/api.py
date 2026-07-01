@@ -20,6 +20,13 @@ def get_user_tickets(user: User):
     return Ticket.objects.filter(user=user).order_by("-created_at")
 
 
+def search_user_tickets(user: User, query: str):
+    qs = Ticket.objects.filter(user=user)
+    if query:
+        qs = qs.filter(title__icontains=query)
+    return qs.order_by("-created_at")
+
+
 def get_all_tickets():
     return Ticket.objects.select_related("user").order_by("-created_at")
 

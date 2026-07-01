@@ -1,10 +1,18 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from .api import authenticate_user, close_ticket, create_ticket, delete_ticket, get_all_tickets, get_user_tickets
+from .api import (
+    authenticate_user,
+    close_ticket,
+    create_ticket,
+    delete_ticket,
+    get_all_tickets,
+    get_user_tickets,
+    search_user_tickets,
+)
 from .forms import LoginForm, TicketForm
 from .models import Ticket
 
@@ -55,6 +63,13 @@ def dashboard_view(request):
             return HttpResponseRedirect(reverse("dashboard") + "?submitted=1")
 
     return render(request, "tickets/dashboard.html", {"form": form, "tickets": get_user_tickets(request.user)})
+
+
+@login_required
+def search_tickets_view(request):
+    query = request.GET.get("q", "")
+    tickets = search_user_tickets(request.user, query)
+    return JsonResponse({"ids": [ticket.id for ticket in tickets]})
 
 
 @login_required

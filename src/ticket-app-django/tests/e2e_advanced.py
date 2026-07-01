@@ -9,8 +9,6 @@ Each test exercises a pattern where a naive line-by-line conversion breaks:
   test_toast_auto_dismiss        — WebDriverWait for visibility AND invisibility
   test_shadow_dom_copy_widget   — .shadow_root + find_element inside shadow tree
   test_drag_drop_kanban_close   — ActionChains click_and_hold → move → release
-                                   (NOTE: HTML5 drag via ActionChains is known-flaky;
-                                   that contrast with Playwright is part of the lesson)
 
 Run headless (default):
     pytest tests/e2e_advanced.py
