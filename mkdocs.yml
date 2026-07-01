@@ -28,7 +28,7 @@ theme:
 extra_css:
   - stylesheets/extra.css
 
-extra_js:
+extra_javascript:
   - javascripts/no-copy.js
 
 markdown_extensions:
