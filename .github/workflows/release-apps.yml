@@ -59,11 +59,11 @@ jobs:
       - name: Build taskdesk-api-modern.zip
         run: |
           zip -r taskdesk-api-modern.zip src/ticket-api-modern/ \
-            --exclude "src/ticket-api-lab5/.venv/*" \
-            --exclude "src/ticket-api-lab5/__pycache__/*" \
-            --exclude "src/ticket-api-lab5/*.pyc" \
-            --exclude "src/ticket-api-lab5/*.db" \
-            --exclude "src/ticket-api-lab5/.pytest_cache/*"
+            --exclude "src/ticket-api-modern/.venv/*" \
+            --exclude "src/ticket-api-modern/__pycache__/*" \
+            --exclude "src/ticket-api-modern/*.pyc" \
+            --exclude "src/ticket-api-modern/*.db" \
+            --exclude "src/ticket-api-modern/.pytest_cache/*"
 
       - name: Create GitHub Release
         env:
@@ -72,6 +72,6 @@ jobs:
           gh release create "${{ steps.version.outputs.tag }}" \
             taskdesk-django.zip \
             taskdesk-api.zip \
-            taskdesk-api-lab5.zip \
+            taskdesk-api-modern.zip \
             --title "Release ${{ steps.version.outputs.tag }}" \
             --notes "Downloadable apps for QA training labs."
