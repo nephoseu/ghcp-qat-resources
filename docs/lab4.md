@@ -1,4 +1,4 @@
-# Lab 4 Load & Performance Testing with JMeter
+# Lab 4 Load & Performance Testing with JMeter using GitHub Copilot
 
 ## Overview
 

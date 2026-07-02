@@ -6,6 +6,7 @@ on:
     paths:
       - 'src/ticket-app-django/**'
       - 'src/ticket-api/**'
+      - 'src/ticket-api-lab5/**'
 
 permissions:
   contents: write
@@ -54,6 +55,15 @@ jobs:
             --exclude "src/ticket-api/*.db" \
             --exclude "src/ticket-api/.pytest_cache/*"
 
+      - name: Build taskdesk-api-modern.zip
+        run: |
+          zip -r taskdesk-api-modern.zip src/ticket-api-modern/ \
+            --exclude "src/ticket-api-lab5/.venv/*" \
+            --exclude "src/ticket-api-lab5/__pycache__/*" \
+            --exclude "src/ticket-api-lab5/*.pyc" \
+            --exclude "src/ticket-api-lab5/*.db" \
+            --exclude "src/ticket-api-lab5/.pytest_cache/*"
+
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -61,5 +71,6 @@ jobs:
           gh release create "${{ steps.version.outputs.tag }}" \
             taskdesk-django.zip \
             taskdesk-api.zip \
+            taskdesk-api-lab5.zip \
             --title "Release ${{ steps.version.outputs.tag }}" \
             --notes "Downloadable apps for QA training labs."
