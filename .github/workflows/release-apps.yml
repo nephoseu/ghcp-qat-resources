@@ -6,7 +6,8 @@ on:
     paths:
       - 'src/ticket-app-django/**'
       - 'src/ticket-api/**'
-      - 'src/ticket-api-lab5/**'
+      - 'src/ticket-api-modern/**'
+  workflow_dispatch:
 
 permissions:
   contents: write
