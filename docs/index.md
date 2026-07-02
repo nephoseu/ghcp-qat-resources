@@ -7,11 +7,11 @@ hands-on exercise targeting a specific testing discipline.
 
 | Lab | Topic | Time |
 |-----|-------|------|
-| [Lab 1](lab1.md) | Getting started with GitHub Copilot | 30 min |
-| [Lab 2](lab2.md) | Unit tests with GitHub Copilot | 45 min |
-| [Lab 3](lab3.md) | Selenium → Playwright migration | 60 min |
-| [Lab 4](lab4.md) | JMeter load testing | 60 min |
-| [Lab 5](lab5.md) | pytest harness + test data generation | 60 min |
+| [Lab 1](lab1.md) | Getting Started with GitHub Copilot | 45 min |
+| [Lab 2](lab2.md) | Develop Unit Tests with GitHub Copilot | 30 min |
+| [Lab 3](lab3.md) | Selenium to Playwright Migration with GitHub Copilot | 60 min |
+| [Lab 4](lab4.md) | Load & Performance Testing with JMeter using GitHub Copilot | 60 min |
+| [Lab 5](lab5.md) | Generating Test Data & Building a Test Harness with GitHub Copilot| 45-60 min |
 
 
 ## Prerequisites
