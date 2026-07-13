@@ -12,7 +12,7 @@ before that happens: fixtures that don't duplicate login logic, factories that
 understand the new API's business rules, parametrised tests that pin down its
 rulebook, and a migration rehearsal against a real (if messy) legacy export.
 
-**Estimated time:** 45–60 minutes
+**Estimated time:** 45 minutes
 
 !!! tip "Download the app first"
     Lab 5 uses **TaskDesk API Modern **. Download and unzip it before following
