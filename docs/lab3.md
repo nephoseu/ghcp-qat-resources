@@ -61,7 +61,7 @@ In a second terminal (with the venv activated):
 pytest tests/e2e.py -v
 ```
 
-All five tests should pass before you start.
+All four tests should pass before you start.
 
 ---
 
